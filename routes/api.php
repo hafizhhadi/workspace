@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::get('/workspace/index', [App\Http\Controllers\User\WorkspaceController::class, 'all']);
+Route::post('/workspace/store', [App\Http\Controllers\User\WorkspaceController::class, 'storeApi']);
