@@ -14,11 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('workspaces', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedInteger('user_id');
+            $table->increments('id');
+            $table->unsignedInteger('user_id')->nullable();
             $table->string('name');
             $table->string('description');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
