@@ -14,13 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tasks', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedInteger('workspace_id');
+            $table->increments('id');
+            $table->unsignedInteger('workspace_id')->nullable();
             $table->string('name');
-            $table->string('status');
+            $table->string('status')->default('false');
             $table->string('description');
-            $table->date('date');
+            $table->string('date');
             $table->timestamps();
+
+            $table->foreign('workspace_id')->references('id')->on('workspaces')->onDelete('cascade');
         });
     }
 
