@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Task extends Model
 {
@@ -14,11 +15,19 @@ class Task extends Model
         'name',
         'status',
         'description',
-        'dateline',
+        'date',
     ];
     
     public function workspaces()
     {
         return $this->belongsTo(Workspace::class,'workspace_id');
+    }
+    public function getDueDateAttribute()
+    {
+        return Carbon::parse($this->date)->format('Y/m/d');
+    }
+    public function getDueTimeAttribute()
+    {
+        return Carbon::parse($this->date)->diffForHumans();
     }
 }
