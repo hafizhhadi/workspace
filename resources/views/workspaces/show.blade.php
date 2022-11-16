@@ -17,7 +17,7 @@
                             <h5 class="modal-title" id="createtasklabel">Create New Task</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form method="post" action="{{ route('task:store', $workspace) }}">
+                        <form method="post" action="{{ route('task.store', $workspace) }}">
                             @csrf
                             <div class="modal-body">
                                 <div class="mb-3">
@@ -46,11 +46,11 @@
             </div>
     
             <div class="card-body">
-                {{-- @if( session()->has('alert-message'))
+                @if( session()->has('alert-message'))
                     <div class="alert {{ session()->get('alert-type') }}">
                         {{ session()->get('alert-message') }}
                     </div>
-                @endif --}}
+                @endif
                 {{-- @if(count($tasks)) --}}
                     <table class="table">
                         <thead>
@@ -64,13 +64,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                            @foreach($tasks as $task)
+                            @foreach($tasks as $keys => $task)
                                 <tr>
-                                    <th scope="row">{{ $loop->iteration }}</th>
+                                    <th scope="row">{{ $keys + 1 }}</th>
                                     <td>{{ $task->name }}</td>
                                     <td>{{ $task->status }}</td> 
                                     <td>{{ $task->description }}</td>  
-                                    <td>{{ $task->a }}</td> 
+                                    <td>{{ $task->date }}</td> 
                                     <td><a href="#" class="btn btn-success">Show</a>
                                         <a onclick="return confirm('Are you sure to delete task?')" href="#" class="btn btn-danger">Delete</a></td>
                                 </tr>
