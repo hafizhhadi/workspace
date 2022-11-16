@@ -16,38 +16,30 @@ class WorkspaceController extends Controller
         return view('workspaces.index', compact('workspaces'));
     }
 
-    public function create()
-    {
-        //
-    }
     public function store(Request $request)
-    {
-        $workspace = new Workspace();
-        $workspace->user_id = Auth::id();
-        $workspace->name = $request->name;
-        $workspace->description = $request->description;
-        $workspace->save();
-        return redirect()->route('home');
+    { 
+        Workspace::create([
+            'user_id' => Auth()->user()->id,
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+
+        return to_route('workspace.index');
     }
 
     public function show(Workspace $workspace)
     {
-        // $tasks = Task::where('id',$workspace->id)->get();
-        $tasks = $workspace->tasks;
-        dd($tasks);
+        $tasks = Task::all();
         return view('workspaces.show', compact('workspace','tasks'));
     }
 
-    public function update(Request $request, $id)
+    public function delete(Workspace $workspace)
     {
-        //
+        $workspace->delete();
+        return to_route('workspace.index');
     }
 
-    public function destroy($id)
-    {
-        //
-    }
-
+    //API
     public function all()
     {
         $workspace = Workspace::all();
@@ -58,6 +50,7 @@ class WorkspaceController extends Controller
         ]);
         
     }
+
     public function storeApi(Request $request)
     {
         $workspace = Workspace::create([ //mass assign
