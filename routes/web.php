@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\TaskController;
+use App\Http\Controllers\User\WorkspaceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,19 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', function () { return view('welcome'); });
 
 Auth::routes();
 
-//Home
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::controller(WorkspaceController::class)->group(function(){
+    Route::get('workspace/index', 'index')->name('workspace.index');
+    Route::post('workspace/store', 'store')->name('workspace.store');
+    Route::get('workspace/show/{workspace}', 'show')->name('workspace.show');
+    Route::get('workspace/delete/{workspace}', 'delete')->name('workspace.delete');
+});
 
-
-Route::post('/workspace/store', [App\Http\Controllers\User\WorkspaceController::class, 'store'])->name('workspace:store');
-Route::get('/workspace/show/{workspace}', [App\Http\Controllers\User\WorkspaceController::class, 'show'])->name('workspace:show');
-
-
-Route::post('/task/store/{workspace}', [App\Http\Controllers\User\TaskController::class, 'store'])->name('task:store');
-// Route::get('/home/show/{task}', [App\Http\Controllers\User\TaskController::class, 'show'])->name('task:show');
+Route::controller(TaskController::class)->group(function(){
+    Route::post('task/store/{workspace}', 'store')->name('task.store');
+});
